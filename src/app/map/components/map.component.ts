@@ -26,7 +26,9 @@ export class MapComponent implements OnInit {
     this.showSpinner = true;
     this.renderTime.start = new Date();
     this.memmoryAllocation = window.performance['memory'];
-    this.markers = this.dataGeneratorService.generateMarkersBasedOnExtent(event);
+    setTimeout(() => {
+      this.markers = this.dataGeneratorService.generateMarkersBasedOnExtent(event)
+    }, 0);
   }
 
   onMarkerRenderComplete(event: boolean): void {

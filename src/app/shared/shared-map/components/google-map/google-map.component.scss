@@ -4,3 +4,11 @@
         height: 100vh;
     }
 }
+::ng-deep {
+    .gm-style-iw {
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+    }
+}

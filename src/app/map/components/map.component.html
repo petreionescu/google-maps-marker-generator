@@ -2,5 +2,9 @@
 <div class="info-window" *ngIf="renderTime?.difference && !showSpinner">
     <p><span class="title">Number of Markers: </span><span>{{markers.length}}</span></p>
     <p><span class="title">Elapsed time seconds: </span><span>{{renderTime?.difference.seconds}}</span></p>
-    <p><span class="title">Memory Allocation: </span>{{memmoryAllocation?.totalJSHeapSize || 'Check with Chrome Web Browser'}}</p>
+    <p><span class="title">Memory Allocation: </span>{{memmoryAllocation?.totalJSHeapSize + ' bytes' || 'Check with Chrome Web Browser'}}</p>
+</div>
+
+<div class="spinner" *ngIf="showSpinner">
+    <div class="lds-dual-ring"></div>
 </div>

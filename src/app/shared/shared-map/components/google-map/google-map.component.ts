@@ -97,11 +97,12 @@ export class GoogleMapComponent implements OnInit, OnDestroy, OnChanges {
           lng: element.location.lng
         },
         map: this.vectorMap,
-        title: element.timeStamp.toISOString()
+        title: element.timeStamp.toISOString(),
+        optimized: true
       })
       this.googleMarkers.push(marker);
       this.listeners.markers.push(google.maps.event.addListener(marker, 'click', (something) => {
-        this.infoWindow.setContent(`<p>${marker.getTitle()}</p><br /><ul><li> Latitude: ${marker.getPosition().lat()}</li><li> Longitude: ${marker.getPosition().lng()}</li></ul>`);
+        this.infoWindow.setContent(`<p><strong>Creation date:</strong> ${marker.getTitle()}</p><ul><li><strong>Latitude:</strong> ${marker.getPosition().lat()}</li><li> <strong>Longitude:</strong> ${marker.getPosition().lng()}</li></ul>`);
         this.infoWindow.open(this.vectorMap, marker);
       }));  
     });
