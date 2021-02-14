@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ExtentObj } from '../shared-map/types/extent-object.interface';
+import { Marker } from '../shared-map/types/marker.interface';
 
-export interface Location {
-  lat: number,
-  lng: number
-}
-export interface Marker {
-  timeStamp: Date,
-  location: Location
-}
 @Injectable({
   providedIn: 'root'
 })

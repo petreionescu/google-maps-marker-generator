@@ -1,0 +1,20 @@
+:host {
+    .info-window {
+        position: absolute;
+        bottom: 24px;
+        right: 60px;
+        border-radius: 4px;
+        background-color: #FFFFFF;
+        padding: 10px;
+        box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+        p {
+            margin: 0 0 16px 0
+        }
+        p:last-child {
+            margin-bottom: 0;
+        }
+        .title {
+            font-weight: 700;
+        }
+    }
+}

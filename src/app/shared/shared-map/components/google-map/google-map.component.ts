@@ -1,8 +1,9 @@
 /// <reference types="@types/googlemaps" />
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Marker } from 'src/app/shared/services/data-generator.service';
+import { Marker } from '../../types/marker.interface';
 import { environment } from '../../../../../environments/environment';
 import { ExtentObj } from '../../types/extent-object.interface';
+
 
 @Component({
   selector: 'app-google-map',
@@ -21,6 +22,7 @@ export class GoogleMapComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input('markers') markers: Marker[] = [];
   @Output('drawRectangleComplete') drawRectangleComplete: EventEmitter<ExtentObj> = new EventEmitter();
+  @Output('markerRenderComplete') markerRenderComplete: EventEmitter<boolean> = new EventEmitter();
 
   constructor() { }
 
@@ -36,6 +38,7 @@ export class GoogleMapComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if(changes && changes.markers.currentValue){
       this.drawMarkers(changes.markers.currentValue);
+      this.markerRenderComplete.next(true);
     }
   }
   
@@ -57,13 +60,12 @@ export class GoogleMapComponent implements OnInit, OnDestroy, OnChanges {
     this.infoWindow = new google.maps.InfoWindow({});
     
     this.drawingmanager = new google.maps.drawing.DrawingManager({
-      drawingMode: google.maps.drawing.OverlayType.MARKER,
       drawingControl: true,
       drawingControlOptions: {
         position: google.maps.ControlPosition.TOP_CENTER,
         drawingModes: [
           google.maps.drawing.OverlayType.RECTANGLE
-        ],
+        ]
       }
     });
     this.drawingmanager.setMap(this.vectorMap);
