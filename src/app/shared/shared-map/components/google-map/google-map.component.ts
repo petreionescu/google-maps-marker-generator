@@ -37,6 +37,7 @@ export class GoogleMapComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes && changes.markers.currentValue){
+      this.removeMarkersAndListeners();
       this.drawMarkers(changes.markers.currentValue);
       this.markerRenderComplete.next(true);
     }
@@ -71,7 +72,6 @@ export class GoogleMapComponent implements OnInit, OnDestroy, OnChanges {
     this.drawingmanager.setMap(this.vectorMap);
     
     let rectangleCompleteListener = google.maps.event.addListener(this.drawingmanager, 'rectanglecomplete', (rectangle:google.maps.Rectangle) => {
-      this.removeMarkersAndListeners();
       
       let bounds: google.maps.LatLngBounds = rectangle.getBounds();
       this.vectorMap.fitBounds(bounds);
@@ -97,11 +97,11 @@ export class GoogleMapComponent implements OnInit, OnDestroy, OnChanges {
           lng: element.location.lng
         },
         map: this.vectorMap,
-        title: element.timeStamp.toISOString(),
+        title: element.timeStamp,
         optimized: true
       })
       this.googleMarkers.push(marker);
-      this.listeners.markers.push(google.maps.event.addListener(marker, 'click', (something) => {
+      this.listeners.markers.push(google.maps.event.addListener(marker, 'click', () => {
         this.infoWindow.setContent(`<p><strong>Creation date:</strong> ${marker.getTitle()}</p><ul><li><strong>Latitude:</strong> ${marker.getPosition().lat()}</li><li> <strong>Longitude:</strong> ${marker.getPosition().lng()}</li></ul>`);
         this.infoWindow.open(this.vectorMap, marker);
       }));  
@@ -110,9 +110,12 @@ export class GoogleMapComponent implements OnInit, OnDestroy, OnChanges {
 
   removeMarkersAndListeners(): void{
     this.listeners.markers.forEach((listener) => listener.remove());
+    this.listeners.markers = [];
+    
     this.googleMarkers.forEach(marker => {
       marker.setMap(null);    
     });
+    this.googleMarkers = [];
   }
 
 }

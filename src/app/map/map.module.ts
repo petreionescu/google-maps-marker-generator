@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MapComponent } from './components/map.component';
 import { SharedMapModule } from '../shared/shared-map/shared-map.module';
 
@@ -12,6 +12,9 @@ import { SharedMapModule } from '../shared/shared-map/shared-map.module';
   imports: [
     CommonModule,
     SharedMapModule
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class MapModule { }

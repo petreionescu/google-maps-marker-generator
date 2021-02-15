@@ -1,34 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DataGeneratorService } from 'src/app/shared/services/data-generator.service';
 import { ExtentObj } from 'src/app/shared/shared-map/types/extent-object.interface';
 import { Marker } from 'src/app/shared/shared-map/types/marker.interface';
 import { MemoryAllocation } from 'src/app/shared/shared-map/types/memory-allocation.interface';
 import { RenderTime } from 'src/app/shared/shared-map/types/render-time.interface';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit {
+export class MapComponent {
   public markers: Marker[] = null;
   public renderTime: RenderTime = {start: null, end: null}; 
   public showSpinner: boolean = false;
-  public memmoryAllocation: MemoryAllocation
+  public memmoryAllocation: MemoryAllocation;
   constructor(
     public dataGeneratorService: DataGeneratorService
   ) { }
-
-  ngOnInit(): void {
-  }
 
   onDrawRectangleComplete(event: ExtentObj): void {
     this.showSpinner = true;
     this.renderTime.start = new Date();
     this.memmoryAllocation = window.performance['memory'];
-    setTimeout(() => {
-      this.markers = this.dataGeneratorService.generateMarkersBasedOnExtent(event)
-    }, 0);
+    this.dataGeneratorService.generateMarkersBasedOnExtent(event).pipe(take(1)).subscribe((res) => {
+      this.markers = res;
+    });
   }
 
   onMarkerRenderComplete(event: boolean): void {
@@ -54,9 +52,6 @@ export class MapComponent implements OnInit {
       seconds: difference / 1000,
       minutes: difference / 1000 / 60,
       hours: difference / 10000 / 60 / 60
-    }
+    };
   }
-
-
-
 }

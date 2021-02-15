@@ -1,6 +1,6 @@
 import { Location } from "./location.interface";
 
 export interface Marker {
-    timeStamp: Date,
+    timeStamp: string,
     location: Location
   }
